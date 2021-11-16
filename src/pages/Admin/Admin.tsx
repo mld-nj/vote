@@ -27,7 +27,7 @@ const VoteTable = (props: any) => {
   ];
   return <Table dataSource={props.count} columns={columns}></Table>;
 };
-const Login = () => {
+const Login = (props: any) => {
   const [loginMes, setLoginMes] = useState<{
     usename: string | undefined;
     password: string | undefined;
@@ -43,7 +43,7 @@ const Login = () => {
   }, []);
   const handleSubmit = () => {
     login(loginMes.usename, loginMes.password).then((res) => {
-      console.log(res);
+      props.changeLoginState(true);
     });
   };
   return (
@@ -91,7 +91,7 @@ const Admin = () => {
   }, []);
   const { TabPane } = Tabs;
   return isLogin === false ? (
-    <Login></Login>
+    <Login changeLoginState={setIsLogin}></Login>
   ) : (
     <div className="adminContainer">
       <Tabs defaultActiveKey="1" onChange={callBack}>
