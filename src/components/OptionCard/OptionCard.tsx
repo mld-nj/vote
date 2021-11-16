@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Card, Radio } from "antd";
 import { getChannels, getOptions } from "../../api/vote";
+import { useRecoilState } from "recoil";
+import { userOption } from "../../store/optionStore";
 import "./OptionCard.scss";
 const Option = (props: any) => {
   const { Button } = Radio;
@@ -11,7 +13,7 @@ const OptionCard = (props: { channelId: number }) => {
     mikeKind: "",
   });
   const [options, setOptions] = useState([]);
-  console.log(props);
+  const [userDes, setUserDes] = useRecoilState(userOption);
   useEffect(() => {
     getChannels(props.channelId).then((res) => {
       setChannel(JSON.parse(res.data));
@@ -20,10 +22,21 @@ const OptionCard = (props: { channelId: number }) => {
       setOptions(JSON.parse(res.data));
     });
   }, []);
+  const { channelId } = props;
+  const onChange = (e: any) => {
+    console.log(e.target.value);
+    if (channelId == 1) {
+      setUserDes({ ...userDes, optionId1: e.target.value });
+    } else if (channelId == 2) {
+      setUserDes({ ...userDes, optionId2: e.target.value });
+    } else {
+      setUserDes({ ...userDes, optionId3: e.target.value });
+    }
+  };
   return (
     <div className="optionCardContainer">
       <Card title={channel.mikeKind}>
-        <Radio.Group>
+        <Radio.Group onChange={onChange}>
           {options.map((value: any) => {
             return (
               <Option

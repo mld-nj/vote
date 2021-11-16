@@ -14,3 +14,28 @@ export const getOptions = (channelId: number) => {
     params: { channelId },
   });
 };
+export const login = (username: any, password: any) => {
+  return request.post(
+    "/login",
+    {
+      username,
+      password,
+    }
+    // {
+    //   headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    // }
+  );
+};
+export const postOptions = (
+  optionId1: number,
+  optionId2: number,
+  optionId3: number
+) => {
+  return request.get("vote", {
+    params: {
+      optionId1,
+      optionId2,
+      optionId3,
+    },
+  });
+};

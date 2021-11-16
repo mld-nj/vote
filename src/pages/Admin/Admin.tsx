@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
-import { getOptions } from "../../api/vote";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { getOptions, login } from "../../api/vote";
 import { Table, Tabs } from "antd";
 import "./Admin.scss";
 const VoteTable = (props: any) => {
@@ -28,22 +28,51 @@ const VoteTable = (props: any) => {
   return <Table dataSource={props.count} columns={columns}></Table>;
 };
 const Login = () => {
+  const [loginMes, setLoginMes] = useState<{
+    usename: string | undefined;
+    password: string | undefined;
+  }>({ usename: "", password: "" });
+  let nameRef = useRef<HTMLInputElement>(null);
+  let pasRef = useRef<HTMLInputElement>(null);
+  const handleChange = useCallback(() => {
+    setLoginMes({
+      ...loginMes,
+      usename: nameRef.current?.value,
+      password: pasRef.current?.value,
+    });
+  }, []);
+  const handleSubmit = () => {
+    login(loginMes.usename, loginMes.password).then((res) => {
+      console.log(res);
+    });
+  };
   return (
     <div className="bigBox">
-      <h1 className="title">投票数据展示平台</h1>
+      <h1 className="title"></h1>
       <div className="box">
         <h2>登录</h2>
-        <form className="login">
+        <div className="login">
           <div className="inputBox">
-            <input type="text" name="username" />
+            <input
+              ref={nameRef}
+              type="text"
+              name="username"
+              onChange={handleChange}
+            />
             <label>账号</label>
           </div>
           <div className="inputBox">
-            <input type="password" />
+            <input ref={pasRef} type="password" onChange={handleChange} />
             <label>密码</label>
           </div>
-          <input className="submit" type="submit" name="" value="登录" />
-        </form>
+          <input
+            className="submit"
+            type="submit"
+            name=""
+            value="登录"
+            onClick={handleSubmit}
+          />
+        </div>
       </div>
     </div>
   );
