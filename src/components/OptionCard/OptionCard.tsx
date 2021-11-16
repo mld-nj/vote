@@ -3,18 +3,20 @@ import { Card, Radio } from "antd";
 import { getChannels, getOptions } from "../../api/vote";
 import "./OptionCard.scss";
 const Option = (props: any) => {
-  //   const { Button } = Radio;
-  return <Radio value={props.optionId}>{props.mikeFlavour}</Radio>;
+  const { Button } = Radio;
+  return <Button value={props.optionId}>{props.mikeFlavour}</Button>;
 };
-const OptionCard = (props: { channlId: number }) => {
-  const [channels, setChannels] = useState([]);
+const OptionCard = (props: { channelId: number }) => {
+  const [channel, setChannel] = useState<{ mikeKind: string }>({
+    mikeKind: "",
+  });
   const [options, setOptions] = useState([]);
-  const channel: any = channels[0];
+  console.log(props);
   useEffect(() => {
-    getChannels(props.channlId).then((res) => {
-      setChannels(JSON.parse(res.data));
+    getChannels(props.channelId).then((res) => {
+      setChannel(JSON.parse(res.data));
     });
-    getOptions(props.channlId).then((res) => {
+    getOptions(props.channelId).then((res) => {
       setOptions(JSON.parse(res.data));
     });
   }, []);

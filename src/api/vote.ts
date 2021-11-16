@@ -1,6 +1,9 @@
 import axios from "axios";
 const baseUrl = "http://localhost:8080/";
 const request = axios.create({ baseURL: baseUrl });
+export const getAllChannels = () => {
+  return request.get("/allChannel");
+};
 export const getChannels = (channelId: number) => {
   return request.get("/channel", {
     params: { channelId },

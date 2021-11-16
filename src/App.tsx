@@ -1,13 +1,8 @@
-import React from "react";
-import Index from "./pages/Index/Index";
+import MyRouter from "./route/myRouter";
 import "./App.css";
 import "antd/dist/antd.css";
 function App() {
-  return (
-    <div className="App">
-      <Index></Index>
-    </div>
-  );
+  return <MyRouter></MyRouter>;
 }
 
 export default App;
